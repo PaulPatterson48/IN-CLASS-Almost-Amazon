@@ -1,3 +1,7 @@
+import { deleteBook, getBooks } from '../api/bookData';
+import { showAuthors } from '../pages/authors';
+import { showBooks } from '../pages/books';
+
 const domEvents = () => {
   document.querySelector('#main-container').addEventListener('click', (e) => {
     // TODO: CLICK EVENT FOR DELETING A BOOK
@@ -6,6 +10,8 @@ const domEvents = () => {
       if (window.confirm('Want to delete?')) {
         console.warn('CLICKED DELETE BOOK', e.target.id);
         console.warn(e.target.id.split('--'));
+        const [, firebaseKey] = e.target.id.split('--');
+        deleteBook(firebaseKey).then(getBooks).then(showBooks);
       }
     }
 
@@ -31,6 +37,8 @@ const domEvents = () => {
       if (window.confirm('Want to delete?')) {
         console.warn('DELETE AUTHOR', e.target.id);
         console.warn(e.target.id.split('--'));
+        const [, firebaseKey] = e.target.id.split('--');
+        deleteBook(firebaseKey).then(getBooks).then(showAuthors);
       }
     }
 
