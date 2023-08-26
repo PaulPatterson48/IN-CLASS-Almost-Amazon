@@ -14,7 +14,7 @@ const startApp = () => {
   navBar(); // DYNAMICALLY ADD THE NAV
   logoutButton(); // ADD THE LOGOUT BUTTON COMPONENT
   navigationEvents(); // ATTACH THE EVENT LISTENERS TO THE NAVBAR
-  getBooks().then((books) => showBooks(books));
+  getBooks().then(showBooks);
 };
 
 export default startApp;
