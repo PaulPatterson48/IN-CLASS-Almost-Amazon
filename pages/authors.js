@@ -2,7 +2,7 @@ import clearDom from '../utils/clearDom';
 import renderToDOM from '../utils/renderToDom';
 
 const emptyAuthors = () => {
-  const domString = '<h1>No Authors</h1>';
+  const domString = '<h1>No Authors Found</h1>';
   renderToDOM('#store', domString);
 };
 
@@ -28,6 +28,7 @@ const showAuthors = (array) => {
     </div>
     `;
   });
+
   renderToDOM('#store', domString);
 };
 

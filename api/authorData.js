@@ -2,14 +2,20 @@ import client from '../utils/client';
 
 const endpoint = client.databaseURL;
 
-const getAuthors = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/authors.json`, {
+const getAuthors = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/authors.json?orderBy="uid"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
     },
   }).then((response) => response.json())
-    .then((data) => resolve(Object.values(data)))
+    .then((data) => {
+      if (data) {
+        resolve(Object.values(data));
+      } else {
+        resolve([]);
+      }
+    })
     .catch(reject);
 });
 
@@ -60,14 +66,17 @@ const updateAuthor = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const getFavoriteAuthors = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/authors.json?orderBy="favorite"&equalTo=true`, {
+const getFavoriteAuthors = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/authors.json?orderBy="uid"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
     },
   }).then((response) => response.json())
-    .then((data) => resolve(Object.values(data)))
+    .then((data) => {
+      const filterAuthor = Object.values.apply(data).filter((author) => author.favorite);
+      resolve(filterAuthor);
+    })
     .catch(reject);
 });
 
@@ -82,6 +91,16 @@ const getAuthorBooks = (firebaseKey) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const searchAuthors = (searchValue, uid) => new Promise((resolve, reject) => {
+  getAuthors(uid).then((authorsArray) => {
+    const searchResults = authorsArray.filter((authors) => (
+      authors.last_name.toLowerCase().includes(searchValue)
+      || authors.first_name.toLowerCase().includes(searchValue)
+    ));
+    resolve(searchResults);
+  }).catch(reject);
+});
+
 export {
   getAuthors,
   createAuthor,
@@ -89,5 +108,6 @@ export {
   deleteSingleAuthor,
   updateAuthor,
   getAuthorBooks,
-  getFavoriteAuthors
+  getFavoriteAuthors,
+  searchAuthors
 };
