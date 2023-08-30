@@ -61,6 +61,11 @@ const domEvents = (user) => {
       const [, firebaseKey] = e.target.id.split('--');
       getSingleAuthor(firebaseKey).then((authorObj) => addAuthorForm(user.uid, authorObj));
     }
+
+    if (e.target.id.includes('update-author')) {
+      const [, firebaseKey] = e.target.id.split('--');
+      getSingleAuthor(firebaseKey).then((authorObj) => addAuthorForm(user.uid, authorObj));
+    }
   });
 };
 

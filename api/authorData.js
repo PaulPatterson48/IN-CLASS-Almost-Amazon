@@ -66,6 +66,20 @@ const updateAuthor = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+// const getAuthorFilter = (uid) => new Promise((resolve, reject) => {
+// fetch(`${endpoint}/authors.json?orderBy="uid"&equalTo="${uid}"`, {
+// method: 'GET',
+// headers: {
+// 'Content-Type': 'application/json'
+// },
+// }).then((response) => response.json())
+// .then((data) => {
+// // const filterAuthor = Object.values(data).filter((author) => author.favorite);
+// resolve(filterAuthor);
+// })
+// .catch(reject);
+// });
+
 const getFavoriteAuthors = () => new Promise((resolve, reject) => {
   fetch(`${endpoint}/authors.json?orderBy="favorite"&equalTo=true`, {
     method: 'GET',
@@ -95,5 +109,6 @@ export {
   deleteSingleAuthor,
   updateAuthor,
   getAuthorBooks,
+  // getAuthorFilter,
   getFavoriteAuthors
 };
