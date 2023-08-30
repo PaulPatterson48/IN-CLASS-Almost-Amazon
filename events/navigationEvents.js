@@ -9,7 +9,6 @@ const navigationEvents = (user) => {
   // LOGOUT BUTTON
   document.querySelector('#logout-button')
     .addEventListener('click', signOut);
-
   document.querySelector('#sale-books').addEventListener('click', () => {
     booksOnSale(user.uid).then(showBooks);
   });

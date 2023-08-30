@@ -66,17 +66,14 @@ const updateAuthor = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const getFavoriteAuthors = (uid) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/authors.json?orderBy="uid"&equalTo="${uid}"`, {
+const getFavoriteAuthors = () => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/authors.json?orderBy="favorite"&equalTo=true`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
     },
   }).then((response) => response.json())
-    .then((data) => {
-      const filterAuthor = Object.values.apply(data).filter((author) => author.favorite);
-      resolve(filterAuthor);
-    })
+    .then((data) => resolve(Object.values(data)))
     .catch(reject);
 });
 
@@ -91,16 +88,6 @@ const getAuthorBooks = (firebaseKey) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const searchAuthors = (searchValue, uid) => new Promise((resolve, reject) => {
-  getAuthors(uid).then((authorsArray) => {
-    const searchResults = authorsArray.filter((authors) => (
-      authors.last_name.toLowerCase().includes(searchValue)
-      || authors.first_name.toLowerCase().includes(searchValue)
-    ));
-    resolve(searchResults);
-  }).catch(reject);
-});
-
 export {
   getAuthors,
   createAuthor,
@@ -108,6 +95,5 @@ export {
   deleteSingleAuthor,
   updateAuthor,
   getAuthorBooks,
-  getFavoriteAuthors,
-  searchAuthors
+  getFavoriteAuthors
 };
